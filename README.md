@@ -2,19 +2,21 @@
 Sample app for SSO between google apps domains.
 
 This demonstrates SAML SSO with google properties and is is intended for *testing/POC only*
+
 The script basically runs a SAML IDP within a docker container.
 
 To use:
 1. Create public/private keypair
-    remember to set the CN= to your domain
-    the certificates provided in github is set for sso.yourdomain.com
+*remember to set the CN= to your domain
+*the certificates provided in github is set for sso.yourdomain.com
+
 2. Login to your google apps admin console (admin.google.com/a/yourdomain.com)
-    Navigate to https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso
-    set following config:
-      Login:  https://sso.yourdomain.com:28080/login
-      Logout: https://sso.yourdomain.com:28080/logout
-      Change Password: https://sso.yourdomain.com:28080/passwd
-      upload the public cert (ssl.crt)
+*Navigate to https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso
+*set following config:
+**Login:  https://sso.yourdomain.com:28080/login
+**Logout: https://sso.yourdomain.com:28080/logout
+**Change Password: https://sso.yourdomain.com:28080/passwd
+**upload the public cert (ssl.crt)
 3. If you are running the docker container locally,
       On your laptop edit
          /etc/hosts
