@@ -25,9 +25,8 @@ set following config:
   *  Change Password: https://sso.yourdomain.com:28080/passwd  
   *  upload the public cert (ssl.crt)  
 3. If you are running the docker container locally,  
-  On your laptop the hosts file and set your domain to localhost   
-```/etc/hosts  
-       127.0.0.1 localhost sso.yourdomain.com```
+  On your laptop the hosts file and set your domain to localhost  
+```/etc/hosts  127.0.0.1 localhost sso.yourdomain.com```
 4. Install docker
 5. Make a folder called sso and copy all the files from the github repo into it (apps.py, ssl*, Dockerfile)
 6. Create the docker container
@@ -39,7 +38,7 @@ set following config:
 10. The IDP will authenticate **ANY** user in your apps domain so if you have a user called user1@yourdomain.com, enter in 'user1', any password
       and yourdomain.com in the IDP login screen
 11. If successful, you will get redirected to the SAML POST binding screen so  you can see the actual XML signed POST text.
-12. Click contineu and if the sigatures and validUntil= parameters are ok, you will be logged in as user1
+12. Click continue and if the sigatures and validUntil= parameters are ok, you will be logged in as user1
 
 
 If you want to generate your own keypairs:
