@@ -34,10 +34,10 @@ set following config:
 7. Run the container
 ```docker run -t -p 28080:28080 appssso --debug  --use_ssl --cert_file=ssl.crt --key_file=ssl.key --key_blank_pwd```
 8. At this point, the IDP is running locally on port sso.yourdomain.com:28080
-9. If you attempt a new login to https://mail.google.com/a/yourdomain.com, you will get redirected to a login screen on your IDP
+9. If you attempt a new login to https://mail.google.com/a/yourdomain.com, you will get redirected to a login screen on your IDP ![SSO Login](images/sso_login.png) 
 10. The IDP will authenticate **ANY** user in your apps domain so if you have a user called user1@yourdomain.com, enter in 'user1', any password
       and yourdomain.com in the IDP login screen
-11. If successful, you will get redirected to the SAML POST binding screen so  you can see the actual XML signed POST text.
+11. If successful, you will get redirected to the SAML POST binding screen so  you can see the actual XML signed POST text. ![SAML POST](images/saml_post.png) 
 12. Click continue and if the sigatures and validUntil= parameters are ok, you will be logged in as user1
 
 
