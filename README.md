@@ -12,14 +12,14 @@ The script basically runs a SAML IDP within a docker container.
   * run the image salrashid123/appssso  from dockerregistry  
   ```docker run -t -p 28080:28080 salrashid123/appssso --debug  --use_ssl --cert_file=ssl.crt --key_file=ssl.key --key_blank_pwd```  
 
-### Build local
-1. Create public/private keypair
+### or Build local
+1. Create public/private keypair or use ones provided in repo
 *remember to set the CN= to your domain
 *the certificates provided in github is set for sso.yourdomain.com
 
 2. Login to your google apps admin console (admin.google.com/a/yourdomain.com)  
 Navigate to [Apps SSO Config](https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso)  
-set following config:  
+set following config depending on where you're running the IDP:  
   *  Login:  https://sso.yourdomain.com:28080/login  
   *  Logout: https://sso.yourdomain.com:28080/logout  
   *  Change Password: https://sso.yourdomain.com:28080/passwd  
