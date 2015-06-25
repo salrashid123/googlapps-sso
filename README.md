@@ -23,7 +23,7 @@ set following config:
   *  Login:  https://sso.yourdomain.com:28080/login  
   *  Logout: https://sso.yourdomain.com:28080/logout  
   *  Change Password: https://sso.yourdomain.com:28080/passwd  
-  *  upload the public cert (ssl.crt) ![SSO Config](/master/images/sso_conifg.png) 
+  *  upload the public cert (ssl.crt) ![SSO Config](/salrashid123/googlapps-sso/master/images/sso_conifg.png) 
 3. If you are running the docker container locally,  
   On your laptop the hosts file and set your domain to localhost  
 ```/etc/hosts  127.0.0.1 localhost sso.yourdomain.com```
