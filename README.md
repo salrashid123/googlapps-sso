@@ -7,9 +7,9 @@ The script basically runs a SAML IDP within a docker container.
 
 ##To use:
 ### From dockerhub
-  pull [salrashid/gcpacme](https://registry.hub.docker.com/u/salrashid123/appssso/)  
+  pull [salrashid123/appsso](https://registry.hub.docker.com/u/salrashid123/appssso/)  
   * download apps.py, ssl* and Docker file from github repo  
-  * run the image salrashid123/appssso  from dockerregistry
+  * run the image salrashid123/appssso  from dockerregistry  
   ```docker run -t -p 28080:28080 salrashid123/appssso --debug  --use_ssl --cert_file=ssl.crt --key_file=ssl.key --key_blank_pwd```  
 
 ### Build local
@@ -31,9 +31,9 @@ set following config:
 4. Install docker
 5. Make a folder called sso and copy all the files from the github repo into it (apps.py, ssl*, Dockerfile)
 6. Create the docker container
-```docker build -t sso .```
+```docker build -t appssso .```
 7. Run the container
-```docker run -t -p 28080:28080 sso --debug  --use_ssl --cert_file=ssl.crt --key_file=ssl.key --key_blank_pwd```
+```docker run -t -p 28080:28080 appssso --debug  --use_ssl --cert_file=ssl.crt --key_file=ssl.key --key_blank_pwd```
 8. At this point, the IDP is running locally on port sso.yourdomain.com:28080
 9. If you attempt a new login to https://mail.google.com/a/yourdomain.com, you will get redirected to a login screen on your IDP
 10. The IDP will authenticate **ANY** user in your apps domain so if you have a user called user1@yourdomain.com, enter in 'user1', any password
@@ -43,4 +43,5 @@ set following config:
 
 
 If you want to generate your own keypairs:
-openssl req -x509 -newkey rsa:2048 -keyout ssl.key -out ssl.crt -days 365 -nodes
+```openssl req -x509 -newkey rsa:2048 -keyout ssl.key -out ssl.crt -days 365 -nodes```  
+
