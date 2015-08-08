@@ -47,6 +47,6 @@ set following config depending on where you're running the IDP:
 
 ### or Run the IDP outside of a container
 4. Dowload app.py and install the prerequsites via apt as shown in the script instructions
-5. Download, compile pyxmlsec
+5. Download, compile pyxmlsec  (forget trying to install it on windows)  
 6. Run  
  ```python apps.py --debug  --use_ssl --cert_file=ssl.crt --key_file=ssl.key --key_blank_pwd```
