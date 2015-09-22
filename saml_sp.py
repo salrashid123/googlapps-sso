@@ -38,6 +38,12 @@ with some minor modifications:
    acs_url: AssertionConsumerServiceURL to redirect back to the SP
  
   1. comment out lines 246,247,268 in apps.py and run apps.py from the commandline only (not as the docker image)
+     that is, comment the following lines in apps.py
+     #domain_as_acs = 'https://www.google.com/a/' + domain.lower() + '/acs'
+     #if (acs_url.lower() != domain_as_acs):
+       #self.log('Login Domain mismatched with AssertionConsumerServiceURL')
+       #return 'Login domain and ACS domain mismatched ' + 'loginDomain : ' + domain + '  acs:' + acs_url
+
   2. edit /etc/hosts and add
     127.0.0.1  sso.yourdomain.com sp.mydomain.com
   3. run
