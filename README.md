@@ -24,7 +24,7 @@ set following config depending on where you're running the IDP:
 
 2. Edit your local /etc/hosts file to point sso.yourdomain.com to the system running the container or SSO server
 
-    ```/etc/hosts  127.0.0.1 localhost sso.yourdomain.com```  
+   ```/etc/hosts  127.0.0.1 localhost sso.yourdomain.com```  
 
 3. There are several ways to run the image (in order of ease of use):
   *  Run the the pregenerated image directly from DockerHub
@@ -36,16 +36,16 @@ set following config depending on where you're running the IDP:
   * To use the certificates from this github repo, download ssl.key, ssl.crt into /tmp/certs (for example)
   * If you generated your own certs and uploaded those to the Google Apps SSO configuration page, copy those certificates to /tmp/certs  
   * run the image salrashid123/appssso  from dockerregistry but specify which folder to act as the map volume (so that your local certificates are visible to the container)  
-  ```
+```
   docker run -t -p 28080:28080 \
-      -v /tmp/certs/:/certs/:ro \
-      salrashid123/appssso \ 
-      --debug  \
-      --use_ssl \
-      --cert_file=/certs/ssl.crt \
-      --key_file=/certs/ssl.key \
-      --key_blank_pwd
-  ```  
+    -v /tmp/certs/:/certs/:ro \
+    salrashid123/appssso \ 
+    --debug  \
+    --use_ssl \
+    --cert_file=/certs/ssl.crt \
+    --key_file=/certs/ssl.key \
+    --key_blank_pwd
+```  
 
 ### or Build docker local
 4. Install docker
@@ -79,10 +79,10 @@ set following config depending on where you're running the IDP:
 4. Dowload app.py and install the prerequsites via apt as shown in the script instructions
 5. Download, compile pyxmlsec  (forget trying to install it on windows)  
 6. Run  
- ```python apps.py \
+```python apps.py \
       --debug  \
       --use_ssl \
       --cert_file=ssl.crt \
       --key_file=ssl.key \
       --key_blank_pwd
-  ```
+```
