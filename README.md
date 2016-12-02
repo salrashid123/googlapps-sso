@@ -15,7 +15,8 @@ Navigate to [Apps SSO Config](https://admin.google.com/AdminHome?fral=1#Security
 set following config depending on where you're running the IDP:  
     *  Login:  https://sso.yourdomain.com:28080/login  
     *  Logout: https://sso.yourdomain.com:28080/logout  
-    *  Change Password: https://sso.yourdomain.com:28080/passwd  
+    *  Change Password: https://sso.yourdomain.com:28080/passwd 
+    *  You *may* need to set ["Use a domain specific issuer"](https://support.google.com/a/answer/60224?hl=en) 
     *  upload the public cert (ssl.crt) ![SSO Config](images/sso_conifg.png)
       * **NOTE** You do not ofcourse have touse the certificates provided here.  You can simply issue your own self-signed certificates as shown below: 
       *  Create public/private keypair or use ones provided in repo (remember to set the CN= to your domain; then CN provided in this repo is for sso.yourdomain.com)  
@@ -79,10 +80,4 @@ set following config depending on where you're running the IDP:
 4. Dowload app.py and install the prerequsites via apt as shown in the script instructions
 5. Download, compile pyxmlsec  (forget trying to install it on windows)  
 6. Run  
-```python apps.py \
-      --debug  \
-      --use_ssl \
-      --cert_file=ssl.crt \
-      --key_file=ssl.key \
-      --key_blank_pwd
-```
+```python apps.py --debug  --use_ssl --cert_file=ssl.crt --key_file=ssl.key --key_blank_pwd```
