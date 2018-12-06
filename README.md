@@ -13,9 +13,9 @@ The script basically runs a SAML IDP within a docker container.
 1. Login to your google apps admin console (admin.google.com/a/yourdomain.com)  
 Navigate to [Apps SSO Config](https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso)  
 set following config depending on where you're running the IDP:  
-    *  Login:  https://sso.yourdomain.com:28080/login  
-    *  Logout: https://sso.yourdomain.com:28080/logout  
-    *  Change Password: https://sso.yourdomain.com:28080/passwd 
+    *  Login:  https://sso.idpdomain.com:28080/login  
+    *  Logout: https://sso.idpdomain.com:28080/logout  
+    *  Change Password: https://sso.idpdomain.com:28080/passwd 
     *  upload the public cert (ssl.crt) ![SSO Config](images/sso_conifg.png)
       * **NOTE** You do not ofcourse have touse the certificates provided here.  You can simply issue your own self-signed certificates as shown below: 
       *  Create public/private keypair or use ones provided in repo (remember to set the CN= to your domain; then CN provided in this repo is for sso.yourdomain.com)  
@@ -24,7 +24,7 @@ set following config depending on where you're running the IDP:
 
 2. Edit your local /etc/hosts file to point sso.yourdomain.com to the system running the container or SSO server
 
-   ```/etc/hosts  127.0.0.1 localhost sso.yourdomain.com```  
+   ```/etc/hosts  127.0.0.1 localhost sso.idpdomain.com```  
 
 3. There are several ways to run the image (in order of ease of use):
   *  Run the the pregenerated image directly from DockerHub
@@ -38,13 +38,12 @@ set following config depending on where you're running the IDP:
   * run the image salrashid123/appssso  from dockerregistry but specify which folder to act as the map volume (so that your local certificates are visible to the container)  
 ```
   docker run -t -p 28080:28080 \
-    -v /tmp/certs/:/certs/:ro \
-    salrashid123/appssso \ 
+    -v `pwd`:/app/:ro \
+    --entrypoint=/app/saml_idp_gsuites.py \
+    salrashid123/appssso \
     --debug  \
-    --use_ssl \
-    --cert_file=/certs/ssl.crt \
-    --key_file=/certs/ssl.key \
-    --key_blank_pwd
+    --cert_file=/app/server.crt \
+    --key_file=/app/server.key
 ```  
 
 ### or Build docker local
@@ -59,16 +58,15 @@ set following config depending on where you're running the IDP:
 
 7. Run the container (assuming your local certs exist at /tmp/certs)
 ```
- docker run -t -p 28080:28080 \
-    -v /tmp/certs/:/certs/:ro \
+  docker run -t -p 28080:28080 \
+    -v `pwd`:/app/:ro \
+    --entrypoint=/app/saml_idp_gsuites.py \
     appssso \
     --debug  \
-    --use_ssl \
-    --cert_file=/certs/ssl.crt \
-    --key_file=/certs/ssl.key \
-    --key_blank_pwd
+    --cert_file=/app/server.crt \
+    --key_file=/app/server.key
 ```
-8. At this point, the IDP is running locally on port sso.yourdomain.com:28080
+8. At this point, the IDP is running locally on port sso.idpdomain.com:28080
 9. If you attempt a new login to https://mail.google.com/a/yourdomain.com, you will get redirected to a login screen on your IDP ![SSO Login](images/sso_login.png) 
 10. The IDP will authenticate **ANY** user in your apps domain so if you have a user called user1@yourdomain.com, enter in 'user1', any password
       and yourdomain.com in the IDP login screen

@@ -1,7 +1,7 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 
-RUN apt-get update
-RUN apt-get install -y gzip wget python-cherrypy3 libxml-security-c-dev libxmlsec1 libxmlsec1-openssl libxmlsec1-dev libxml2 python-libxml2 python-libxml2-dbg  libxml2-dev libxslt-dev libltdl-dev python-dev libssl-dev openssl-* libssl-dev  python-dev build-essential
+RUN apt-get clean && apt-get install -f && dpkg --configure -a && apt-get update
+RUN apt-get install -y gzip wget python-flask libxml-security-c-dev libxmlsec1 libxmlsec1-openssl libxmlsec1-dev libxml2 python-libxml2 python-libxml2-dbg  libxml2-dev libxslt-dev libltdl-dev python-dev libssl-dev openssl-* libssl-dev  python-dev build-essential python-pip
 
 WORKDIR /tmp
 
@@ -13,4 +13,4 @@ ADD . /app/
 WORKDIR /app
 
 EXPOSE 28080
-ENTRYPOINT ["python", "apps.py"]
+ENTRYPOINT ["python", "saml_idp_gsuites.py"]
