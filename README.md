@@ -5,7 +5,7 @@ This demonstrates SAML SSO with google properties and is is intended for *testin
 
 The script basically runs a SAML IDP within a docker container.
 
-##To use:
+## To use:
 
 
 
@@ -49,7 +49,7 @@ set following config depending on where you're running the IDP:
 ### or Build docker local
 4. Install docker
 5. Make a folder called sso and copy apps.py and Dockerfile only.
-6. As before, either generate new certificates or use the ones from this repo but place them into a folder you can map to the container (e.g. copy ssl.key, ssl.crt  to /tmp/certs).  You can, ofcourse, copy the certificates into the image at build time.  If you do that, copy the certs into the 'sso' folder from step 2 and omit the volume map and directoy /certs/ while running the container.
+6. As before, either generate new certificates or use the ones from this repo but place them into a folder you can map to the container (e.g. copy ssl.key, ssl.crt  to /tmp/certs).  You can, ofcourse, copy the certificates into the image at build time.  If you do that, copy the certs into the 'sso' folder from step 2 and omit the volume map and directory /certs/ while running the container.
 6. Create the docker container
 
 ```
@@ -71,7 +71,7 @@ set following config depending on where you're running the IDP:
 10. The IDP will authenticate **ANY** user in your apps domain so if you have a user called user1@yourdomain.com, enter in 'user1', any password
       and yourdomain.com in the IDP login screen
 11. If successful, you will get redirected to the SAML POST binding screen so  you can see the actual XML signed POST text. ![SAML POST](images/saml_post.png) 
-12. Click continue and if the sigatures and validUntil= parameters are ok, you will be logged in as user1
+12. Click continue and if the signatures and validUntil= parameters are ok, you will be logged in as user1
 
 ### or Run the IDP outside of a container
 4. Dowload app.py and install the prerequsites via apt as shown in the script instructions

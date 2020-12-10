@@ -46,7 +46,7 @@ class SignatureError(Exception):
 
 
 def getrandom_samlID():
-    return random.choice('abcdefghijklmnopqrstuvwxyz') + hex(random.getrandbits(160))[2:-1]
+    return '_' + hex(random.getrandbits(124))[2:-1]
 
 
 def _generate_response(now, later, username, login_req_id, recipient, audience):
@@ -57,17 +57,14 @@ def _generate_response(now, later, username, login_req_id, recipient, audience):
 
     sigtmpl = ('<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">'
                '<ds:SignedInfo>'
-               '<ds:CanonicalizationMethod '
-               'Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />'
-               '<ds:SignatureMethod '
-               'Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />'
+               '<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />'
+               '<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />'
                '<ds:Reference URI="#%s">'
                '<ds:Transforms>'
-               '<ds:Transform Algorithm='
-               '"http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>'
+               '<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />'
+               '<ds:Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />'
                '</ds:Transforms>'
-               '<ds:DigestMethod Algorithm='
-               '"http://www.w3.org/2000/09/xmldsig#sha1" />'
+               '<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />'
                '<ds:DigestValue></ds:DigestValue>'
                '</ds:Reference>'
                '</ds:SignedInfo>'
@@ -78,48 +75,44 @@ def _generate_response(now, later, username, login_req_id, recipient, audience):
                '</ds:X509Data>'
                '</ds:KeyInfo>'
                '</ds:Signature>') % (resp_rand_id)
-    resp = ('<samlp:Response '
-            'xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" '
-            'xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" '
-            'ID="%s" InResponseTo="%s" Version="2.0" IssueInstant="%s" Destination="%s">'
-            '<saml:Issuer>%s</saml:Issuer>'
+    resp = ('<saml2p:Response '
+            'xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol" '
+            'ID="%s" InResponseTo="%s" Version="2.0" IssueInstant="%s" >'
+            '<saml2:Issuer xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">%s</saml2:Issuer>'
             '%s'
-            '<samlp:Status>'
-            '<samlp:StatusCode '
-            'Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>'
-            '</samlp:Status>'
-            '<saml:Assertion '
+            '<saml2p:Status  xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol">'
+            '<saml2p:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>'
+            '</saml2p:Status>'
+            '<saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" '
             'Version="2.0" ID="%s" IssueInstant="%s">'
-            '<saml:Issuer>%s</saml:Issuer>'
-            '<saml:Subject>'
-            '<saml:NameID>%s</saml:NameID>'
-            '<saml:SubjectConfirmation '
-            'Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">'
-            '<saml:SubjectConfirmationData '
-            'InResponseTo="%s" Recipient="%s" NotOnOrAfter="%s"/>'
-            '</saml:SubjectConfirmation>'
-            '</saml:Subject>'
-            '<saml:Conditions NotBefore="%s" NotOnOrAfter="%s">'
-            '<saml:AudienceRestriction>'
-            '<saml:Audience>%s</saml:Audience>'
-            '</saml:AudienceRestriction>'
-            '</saml:Conditions>'
-            '<saml:AuthnStatement AuthnInstant="%s" SessionIndex="%s">'
-            '<saml:AuthnContext>'
-            '<saml:AuthnContextClassRef>'
-            'urn:oasis:names:tc:SAML:2.0:ac:classes:Password'
-            '</saml:AuthnContextClassRef>'
-            '</saml:AuthnContext>'
-            '</saml:AuthnStatement>'
-            '</saml:Assertion>'
-            '</samlp:Response>') % (resp_rand_id, login_req_id, now, recipient,
+            '<saml2:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">%s</saml2:Issuer>'
+            '<saml2:Subject>'
+            '<saml2:NameID  Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">%s</saml2:NameID>'
+            '<saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">'
+            '<saml2:SubjectConfirmationData InResponseTo="%s" Recipient="%s" NotOnOrAfter="%s"/>'
+            '</saml2:SubjectConfirmation>'
+            '</saml2:Subject>'
+            '<saml2:Conditions NotBefore="%s" NotOnOrAfter="%s">'
+            '<saml2:AudienceRestriction>'
+            '<saml2:Audience>%s</saml2:Audience>'
+            '</saml2:AudienceRestriction>'
+            '</saml2:Conditions>'
+            '<saml2:AuthnStatement AuthnInstant="%s" SessionIndex="%s">'
+            '<saml2:AuthnContext>'
+            '<saml2:AuthnContextClassRef>'
+            'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport'
+            '</saml2:AuthnContextClassRef>'
+            '</saml2:AuthnContext>'
+            '</saml2:AuthnStatement>'
+            '</saml2:Assertion>'
+            '</saml2p:Response>') % (resp_rand_id, login_req_id, now,
                                     saml_issuer, sigtmpl, rand_id_assert, now,
                                     saml_issuer, username,
                                     login_req_id, recipient, later,
                                     now, later, audience,
                                     now, rand_id_assert)
 
-    resp = '<!DOCTYPE samlp:Response [<!ATTLIST samlp:Response ID ID #IMPLIED>]>' + resp
+    resp = '<!DOCTYPE saml2p:Response [<!ATTLIST saml2p:Response ID ID #IMPLIED>]>' + resp
     resp = _signXML(resp)
     return resp
 
@@ -256,12 +249,12 @@ def _postResoponse(username):
     saml_oissuer = None
     req_id = None
     acs_url = None    
-    samlpnode = xmldoc.getElementsByTagName('samlp:AuthnRequest')
+    samlpnode = xmldoc.getElementsByTagName('saml2p:AuthnRequest')
     for node in samlpnode:
-        if node.nodeName == 'samlp:AuthnRequest':
+        if node.nodeName == 'saml2p:AuthnRequest':
             if samlpnode[0].hasAttribute('ID'):
                 req_id = samlpnode[0].attributes['ID'].value
-            samliss = node.getElementsByTagName('saml:Issuer')
+            samliss = node.getElementsByTagName('saml2:Issuer')
             for n_issuer in samliss:
                 cnode = n_issuer.childNodes[0]
                 if cnode.nodeType == node.TEXT_NODE:
@@ -289,13 +282,13 @@ def _postResoponse(username):
     now = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 
     five_sec_from_now = time.strftime(
-        '%Y-%m-%dT%H:%M:%SZ', time.gmtime(time.time()+30))
+        '%Y-%m-%dT%H:%M:%SZ', time.gmtime(time.time()+3000))
     samlresp = _generate_response(now, five_sec_from_now, session['user'],
                                   req_id, acs_url,
                                   saml_oissuer)
 
     log(xml.dom.minidom.parseString(samlresp).toprettyxml())
-    samlresp = samlresp.replace("""<!DOCTYPE samlp:Response [<!ATTLIST samlp:Response ID ID #IMPLIED>]>""", "")
+    samlresp = samlresp.replace("<!DOCTYPE saml2p:Response [\n<!ATTLIST saml2p:Response ID ID #IMPLIED>\n]>\n", "")
 
     return render_template('response.html', redirect_location=redirect_location, relay_state=RelayState, 
         saml_response=base64.encodestring(samlresp), 
